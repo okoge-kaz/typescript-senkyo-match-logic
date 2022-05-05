@@ -14,7 +14,7 @@ export class MatchingResult {
 	private matchingCountDailyLife: number;
 
 	private userSelectThemeKeywords: string[];
-	private leveledValue: number;
+	private standardValue: number;
 	private totalMatchingScore: number;
 
 	private matchingScoreTaxAndFinance: number;
@@ -41,7 +41,7 @@ export class MatchingResult {
 
 		this.userSelectThemeKeywords = userSelectKeywords;
 
-		this.leveledValue = -10000;
+		this.standardValue = -10000;
 		this.totalMatchingScore = 0;
 
 		this.matchingScoreTaxAndFinance = 0;
@@ -74,8 +74,8 @@ export class MatchingResult {
 		}
 	};
 
-	setLeveledValue = (leveledValue: number): void => {
-		this.leveledValue = leveledValue;
+	setMatchingScoreStandard = (standardValue: number): void => {
+		this.standardValue = standardValue;
 	};
 
 	getMatchingResultByKeyword = (categoryKeyword: string): number => {
@@ -151,7 +151,7 @@ export class MatchingResult {
 		this.totalMatchingScore =
 			(this.totalMatchingScore /
 				(this.userSelectThemeKeywords.length +
-					keywords.length * this.leveledValue)) *
+					keywords.length * this.standardValue)) *
 			100;
 
 		// キーワードごとのマッチングスコア計算
@@ -159,27 +159,29 @@ export class MatchingResult {
 			switch (keyword) {
 				case "税金・財政":
 					this.matchingScoreTaxAndFinance = Math.round(
-						this.getMatchingResultByKeyword(keyword) * (100 / this.leveledValue)
+						this.getMatchingResultByKeyword(keyword) * (100 / this.standardValue)
 					);
 				case "医療・教育":
 					this.matchingScoreMedicalCareAndEducation = Math.round(
-						this.getMatchingResultByKeyword(keyword) * (100 / this.leveledValue)
+						this.getMatchingResultByKeyword(keyword) * (100 / this.standardValue)
 					);
 				case "国のしくみ":
 					this.matchingScoreNationalStructure = Math.round(
-						this.getMatchingResultByKeyword(keyword) * (100 / this.leveledValue)
+						this.getMatchingResultByKeyword(keyword) *
+							(100 / this.standardValue)
 					);
 				case "外交・防衛":
 					this.matchingScoreForeignAffairAndDefense = Math.round(
-						this.getMatchingResultByKeyword(keyword) * (100 / this.leveledValue)
+						this.getMatchingResultByKeyword(keyword) * (100 / this.standardValue)
 					);
 				case "インフラ":
 					this.matchingScoreInfrastructure = Math.round(
-						this.getMatchingResultByKeyword(keyword) * (100 / this.leveledValue)
+						this.getMatchingResultByKeyword(keyword) * (100 / this.standardValue)
 					);
 				case "日々のくらし":
 					this.matchingScoreDailyLife = Math.round(
-						this.getMatchingResultByKeyword(keyword) * (100 / this.leveledValue)
+						this.getMatchingResultByKeyword(keyword) *
+							(100 / this.standardValue)
 					);
 				default:
 					break;
