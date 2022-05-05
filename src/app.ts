@@ -12,6 +12,22 @@ app.get("/", async (_req: Request, res: Response) => {
 	});
 });
 
+app.get("/api/party/matching", async (_req: Request, res: Response) => {});
+
+app.get(
+	"/api/party/theme_matching",
+	async (_req: Request, res: Response) => {}
+);
+
+app.get("/api/politician/matching", async (_req: Request, res: Response) => {});
+
+app.get(
+	"/api/politician/theme_matching",
+	async (_req: Request, res: Response) => {
+		
+	}
+);
+
 try {
 	app.listen(PORT, () => {
 		console.log(`dev server running at: http://localhost:${PORT}/`);
