@@ -1,0 +1,66 @@
+[
+	{
+		"question_id": 1,
+		"category": "税金・財政",
+		"question": "もしあなたが政治家だったら、企業に対する税金はどうしますか？\nA:国が使えるお金を増やすために増税する\nB:経済成長を優先するため増税しない",
+		"party_answer": "どちらかというとB",
+		"party_answer_value": 4,
+		"answer_value_size": 5
+	},
+	{
+		"question_id": 2,
+		"category": "税金・財政",
+		"question": "もしあなたが政治家だったら、より国のお金を使うべきなのはどちらだと判断しますか？\nA:日本の経済成長\nB:困っている人への支援",
+		"party_answer": "どちらとも言えない",
+		"party_answer_value": 3,
+		"answer_value_size": 5
+	},
+	{
+		"question_id": 3,
+		"category": "医療・教育",
+		"question": "もしあなたが政治家だったら、新型コロナウイルス感染症についてどう判断しますか？\nA:感染拡大を防ぐため、国が個人の活動を制限することを認める\nB:たとえ感染拡大を防ぐためでも、国が個人の活動を制限することは認めない",
+		"party_answer": "A",
+		"party_answer_value": 1,
+		"answer_value_size": 5
+	},
+	{
+		"question_id": 4,
+		"category": "医療・教育",
+		"question": "もしあなたが政治家だったら、新型コロナウイルス感染症による経済の冷え込みへの対策についてどう判断しますか？\nA:国が借金してでも、経済対策にお金を使うべき\nB:国が借金してまで、経済対策にお金を使う必要はない",
+		"party_answer": "どちらかというとA",
+		"party_answer_value": 2,
+		"answer_value_size": 5
+	},
+	{
+		"question_id": 5,
+		"category": "国のしくみ",
+		"question": "もしあなたが政治家だったら、憲法についてどう判断しますか？\nA:現実に即して改正すべき\nB:改正の必要はない",
+		"party_answer": "A",
+		"party_answer_value": 1,
+		"answer_value_size": 5
+	},
+	{
+		"question_id": 6,
+		"category": "外交・防衛",
+		"question": "もしあなたが政治家だったら、自衛隊の予算や攻撃能力についてどう判断しますか？\nA:向上させるべきだ\nB:削減するべきだ",
+		"party_answer": "どちらとも言えない",
+		"party_answer_value": 3,
+		"answer_value_size": 5
+	},
+	{
+		"question_id": 7,
+		"category": "インフラ",
+		"question": "もしあなたが政治家だったら、原子力発電についてどう判断しますか？\nA:使うべき\nB:使わないべき",
+		"party_answer": "A",
+		"party_answer_value": 1,
+		"answer_value_size": 5
+	},
+	{
+		"question_id": 8,
+		"category": "日々のくらし",
+		"question": "もしあなたが政治家だったら、選択的夫婦別姓についてどう判断しますか？\nA:認めるべき\nB:今のままでいい",
+		"party_answer": "どちらとも言えない",
+		"party_answer_value": 3,
+		"answer_value_size": 5
+	}
+]
