@@ -159,11 +159,13 @@ export class MatchingResult {
 			switch (keyword) {
 				case "税金・財政":
 					this.matchingScoreTaxAndFinance = Math.round(
-						this.getMatchingResultByKeyword(keyword) * (100 / this.standardValue)
+						this.getMatchingResultByKeyword(keyword) *
+							(100 / this.standardValue)
 					);
 				case "医療・教育":
 					this.matchingScoreMedicalCareAndEducation = Math.round(
-						this.getMatchingResultByKeyword(keyword) * (100 / this.standardValue)
+						this.getMatchingResultByKeyword(keyword) *
+							(100 / this.standardValue)
 					);
 				case "国のしくみ":
 					this.matchingScoreNationalStructure = Math.round(
@@ -172,11 +174,13 @@ export class MatchingResult {
 					);
 				case "外交・防衛":
 					this.matchingScoreForeignAffairAndDefense = Math.round(
-						this.getMatchingResultByKeyword(keyword) * (100 / this.standardValue)
+						this.getMatchingResultByKeyword(keyword) *
+							(100 / this.standardValue)
 					);
 				case "インフラ":
 					this.matchingScoreInfrastructure = Math.round(
-						this.getMatchingResultByKeyword(keyword) * (100 / this.standardValue)
+						this.getMatchingResultByKeyword(keyword) *
+							(100 / this.standardValue)
 					);
 				case "日々のくらし":
 					this.matchingScoreDailyLife = Math.round(
@@ -244,13 +248,15 @@ export class MatchingScoreByCategory {
 	}
 
 	getMatchingScoreByCategoryDictionary = () => {
-		return {
-			"税金・財政": this.matchingScoreTaxAndFinance,
-			"医療・教育": this.matchingScoreMedicalCareAndEducation,
-      "国のしくみ": this.matchingScoreNationalStructure,
-			"外交・防衛": this.matchingScoreForeignAffairAndDefense,
-			"インフラ": this.matchingScoreInfrastructure,
-			"日々のくらし": this.matchingScoreDailyLife,
-		};
+		const response: Map<string, number> = new Map<string, number>();
+
+		response.set("税金・財政", this.matchingScoreTaxAndFinance);
+		response.set("医療・教育", this.matchingScoreMedicalCareAndEducation);
+		response.set("国のしくみ", this.matchingScoreNationalStructure);
+		response.set("外交・防衛", this.matchingScoreForeignAffairAndDefense);
+		response.set("インフラ", this.matchingScoreInfrastructure);
+		response.set("日々のくらし", this.matchingScoreDailyLife);
+
+		return response;
 	};
 }
