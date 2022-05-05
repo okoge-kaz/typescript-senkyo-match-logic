@@ -1,9 +1,10 @@
+// import fetch from "node-fetch";
 import {
 	PartyAnswerForEachQuestion,
 	UserAnswerForEachQuestion,
 } from "../class/answer";
 import { MatchingScoreByCategory } from "../class/matching";
-import calculateMatchingScore from "./calculateMatchingScore";
+import { calculatePartyMatchingScore } from "./calculateMatchingScore";
 
 interface PartyAnswer {
 	question_id: number;
@@ -48,11 +49,12 @@ const getPartyAnswerData = async (party: string) => {
 			party +
 			".json"
 	);
-	const partyAnswerDataList: PartyAnswer[] = await response.json();
+	const partyAnswerDataList: PartyAnswer[] =
+		(await response.json()) as PartyAnswer[];
 	return partyAnswerDataList;
 };
 
-export const calculatePartyMatchingScore = (
+export const calculatePartyMatchScore = (
 	userSelectThemes: string[],
 	userAnswerDataList: UserAnswerForEachQuestion[]
 ): PartyMatchingResult => {
@@ -88,12 +90,13 @@ export const calculatePartyMatchingScore = (
 					)
 				);
 
-			const matchingResult: MatchingResultResponse = calculateMatchingScore(
-				userSelectThemes,
-				userAnswerDataList,
-				partyAnswerDataList,
-				"party"
-			);
+			const matchingResult: MatchingResultResponse =
+				calculatePartyMatchingScore(
+					userSelectThemes,
+					userAnswerDataList,
+					partyAnswerDataList,
+					"party"
+				);
 
 			const totalMatchingScore: number = matchingResult.totalMatchingScore;
 			const matchingScoreByCategory: MatchingScoreByCategory =

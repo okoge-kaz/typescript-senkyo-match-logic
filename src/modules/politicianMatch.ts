@@ -1,9 +1,10 @@
+// import fetch from "node-fetch";
 import {
 	PoliticianAnswerForEachQuestion,
 	UserAnswerForEachQuestion,
 } from "../class/answer";
 import { MatchingScoreByCategory } from "../class/matching";
-import calculateMatchingScore from "./calculateMatchingScore";
+import { calculatePoliticianMatchingScore } from "./calculateMatchingScore";
 
 interface PoliticianAnswer {
 	question_id: number;
@@ -48,11 +49,12 @@ const getPoliticianAnswerData = async (politician: string) => {
 			politician +
 			".json"
 	);
-	const politicianAnswerDataList: PoliticianAnswer[] = await response.json();
+	const politicianAnswerDataList: PoliticianAnswer[] =
+		(await response.json()) as PoliticianAnswer[];
 	return politicianAnswerDataList;
 };
 
-export const calculatePoliticianMatchingScore = (
+export const calculatePoliticianMatchScore = (
 	userSelectThemes: string[],
 	userAnswerDataList: UserAnswerForEachQuestion[]
 ): PoliticianMatchingResult => {
@@ -79,18 +81,22 @@ export const calculatePoliticianMatchingScore = (
 					)
 				);
 
-			const matchingResult: MatchingResultResponse = calculateMatchingScore(
-				userSelectThemes,
-				userAnswerDataList,
-				politicianAnswerDataList,
-				"politician"
-			);
+			const matchingResult: MatchingResultResponse =
+				calculatePoliticianMatchingScore(
+					userSelectThemes,
+					userAnswerDataList,
+					politicianAnswerDataList,
+					"politician"
+				);
 
 			const totalMatchingScore: number = matchingResult.totalMatchingScore;
 			const matchingScoreByCategory: MatchingScoreByCategory =
 				matchingResult.matchingScoreByCategory;
 
-			politicianMatchScoreResult.set(politician, Math.round(totalMatchingScore));
+			politicianMatchScoreResult.set(
+				politician,
+				Math.round(totalMatchingScore)
+			);
 			politicianThemeBasedMatchScoreResult.set(
 				politician,
 				matchingScoreByCategory.getMatchingScoreByCategoryDictionary()

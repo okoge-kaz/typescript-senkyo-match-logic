@@ -10,12 +10,11 @@ interface MatchingResultResponse {
 	totalMatchingScore: number;
 	matchingScoreByCategory: MatchingScoreByCategory;
 }
-const calculateMatchingScore = (
+
+export const calculatePartyMatchingScore = (
 	userSelectThemes: string[],
 	userAnswerDataList: UserAnswerForEachQuestion[],
-	targetAnswerDataList:
-		| PartyAnswerForEachQuestion[]
-		| PoliticianAnswerForEachQuestion[],
+	targetAnswerDataList: PartyAnswerForEachQuestion[],
 	target: string
 ): MatchingResultResponse => {
 	/*
@@ -48,11 +47,7 @@ const calculateMatchingScore = (
 
 	for (let index = 0; index < userAnswerDataList.length; index++) {
 		const userAnswerData: UserAnswerForEachQuestion = userAnswerDataList[index];
-
-		if (
-			target === "party" &&
-			targetAnswerDataList[index] instanceof PartyAnswerForEachQuestion
-		) {
+		if (target === "party") {
 			const partyAnswerData: PartyAnswerForEachQuestion =
 				targetAnswerDataList[index];
 
@@ -81,7 +76,49 @@ const calculateMatchingScore = (
 			} else {
 				console.log(Error("category is not match"));
 			}
-		} else if (
+		} else {
+			console.log(Error("target is not match"));
+		}
+	}
+
+	const totalMatchingScore: number = matchingResult.getTotalMatchingScore();
+	const matchingScoreByCategory: MatchingScoreByCategory =
+		new MatchingScoreByCategory(matchingResult);
+
+	return {
+		totalMatchingScore: totalMatchingScore, // 合計マッチ度
+		matchingScoreByCategory: matchingScoreByCategory, // カテゴリごとのマッチ度
+	};
+};
+
+export const calculatePoliticianMatchingScore = (
+	userSelectThemes: string[],
+	userAnswerDataList: UserAnswerForEachQuestion[],
+	targetAnswerDataList: PoliticianAnswerForEachQuestion[],
+	target: string
+): MatchingResultResponse => {
+	/*
+	Args:
+		userSelectThemes: string[] 
+				ユーザーが選択したテーマ
+		userAnswerDataList: UserAnswerForEachQuestion[] 
+				ユーザーが選択した回答
+		targetAnswerDataList: PartyAnswerForEachQuestion[] | PoliticianAnswerForEachQuestion[]
+				対象が選択した回答
+		target: string
+				対象となる回答のタイプ
+
+	Returns:
+
+	 */
+
+	const matchingResult: MatchingResult = new MatchingResult(userSelectThemes);
+	// 各何点で標準化するのかを決める
+	matchingResult.setMatchingScoreStandard(5);
+
+	for (let index = 0; index < userAnswerDataList.length; index++) {
+		const userAnswerData: UserAnswerForEachQuestion = userAnswerDataList[index];
+		if (
 			target === "politician" &&
 			targetAnswerDataList[index] instanceof PoliticianAnswerForEachQuestion
 		) {
@@ -116,11 +153,8 @@ const calculateMatchingScore = (
 			} else {
 				console.log(Error("category is not match"));
 			}
-		} else {
-			console.log(Error("target is not match"));
 		}
 	}
-
 	const totalMatchingScore: number = matchingResult.getTotalMatchingScore();
 	const matchingScoreByCategory: MatchingScoreByCategory =
 		new MatchingScoreByCategory(matchingResult);
@@ -130,5 +164,3 @@ const calculateMatchingScore = (
 		matchingScoreByCategory: matchingScoreByCategory, // カテゴリごとのマッチ度
 	};
 };
-
-export default calculateMatchingScore;

@@ -1,7 +1,7 @@
 import express, { Application, Request, Response } from "express";
 import { UserAnswerForEachQuestion } from "./class/answer";
-import { calculatePartyMatchingScore } from "./modules/partyMatching";
-import { calculatePoliticianMatchingScore } from "./modules/politicianMatching";
+import { calculatePartyMatchScore } from "./modules/partyMatch";
+import { calculatePoliticianMatchScore } from "./modules/politicianMatch";
 
 const app: Application = express();
 const PORT: number = 3000;
@@ -16,12 +16,10 @@ app.get("/", async (_req: Request, res: Response) => {
 });
 
 app.get("/api/party/matching", async (_req: Request, res: Response) => {
+	const userSelectThemes: string[] = _req.body.select_themes;
+	const userAnswerDataList: UserAnswerForEachQuestion[] = _req.body.answer;
 
-	const userSelectThemes: string[] = _req.body.themes;
-	const userAnswerDataList: UserAnswerForEachQuestion[] =
-		_req.body.answers.json();
-
-	const partyMatchingResult = calculatePartyMatchingScore(
+	const partyMatchingResult = calculatePartyMatchScore(
 		userSelectThemes,
 		userAnswerDataList
 	);
@@ -32,10 +30,10 @@ app.get("/api/party/matching", async (_req: Request, res: Response) => {
 });
 
 app.get("/api/party/theme_matching", async (_req: Request, res: Response) => {
-	const userSelectThemes: string[] = _req.body.themes;
-	const userAnswerDataList: UserAnswerForEachQuestion[] = _req.body.answers.json();
+	const userSelectThemes: string[] = _req.body.select_themes;
+	const userAnswerDataList: UserAnswerForEachQuestion[] = _req.body.answer;
 
-	const partyMatchingResult = calculatePartyMatchingScore(
+	const partyMatchingResult = calculatePartyMatchScore(
 		userSelectThemes,
 		userAnswerDataList
 	);
@@ -47,11 +45,10 @@ app.get("/api/party/theme_matching", async (_req: Request, res: Response) => {
 });
 
 app.get("/api/politician/matching", async (_req: Request, res: Response) => {
-	const userSelectThemes: string[] = _req.body.themes;
-	const userAnswerDataList: UserAnswerForEachQuestion[] =
-		_req.body.answers.json();
+	const userSelectThemes: string[] = _req.body.select_themes;
+	const userAnswerDataList: UserAnswerForEachQuestion[] = _req.body.answer;
 
-	const politicianMatchingResult = calculatePoliticianMatchingScore(
+	const politicianMatchingResult = calculatePoliticianMatchScore(
 		userSelectThemes,
 		userAnswerDataList
 	);
@@ -65,11 +62,10 @@ app.get("/api/politician/matching", async (_req: Request, res: Response) => {
 app.get(
 	"/api/politician/theme_matching",
 	async (_req: Request, res: Response) => {
-		const userSelectThemes: string[] = _req.body.themes;
-		const userAnswerDataList: UserAnswerForEachQuestion[] =
-			_req.body.answers.json();
+		const userSelectThemes: string[] = _req.body.select_themes;
+		const userAnswerDataList: UserAnswerForEachQuestion[] = _req.body.answer;
 
-		const politicianMatchingResult = calculatePoliticianMatchingScore(
+		const politicianMatchingResult = calculatePoliticianMatchScore(
 			userSelectThemes,
 			userAnswerDataList
 		);
