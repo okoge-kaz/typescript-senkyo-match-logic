@@ -1,12 +1,13 @@
-const convertOpinionDistanceToMatchingScore = (
+const convertOpinionDistanceToMatchingScore = async (
 	opinionDistance: number,
 	userAnswerDataAnswerValueSize: number,
 	targetAnswerDataAnswerValueSize: number
-): number => {
+): Promise<number> => {
 	/*
   意見距離をマッチングスコアに変換する
   */
-	if (userAnswerDataAnswerValueSize !== targetAnswerDataAnswerValueSize) {
+  if (userAnswerDataAnswerValueSize !== targetAnswerDataAnswerValueSize) {
+    console.log(userAnswerDataAnswerValueSize, targetAnswerDataAnswerValueSize)
 		throw new Error(
 			"userAnswerDataAnswerValueSize !== targetAnswerDataAnswerValueSize"
 		);

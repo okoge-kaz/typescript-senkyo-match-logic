@@ -11,12 +11,12 @@ interface MatchingResultResponse {
 	matchingScoreByCategory: MatchingScoreByCategory;
 }
 
-export const calculatePartyMatchingScore = (
+export const calculatePartyMatchingScore = async (
 	userSelectThemes: string[],
 	userAnswerDataList: UserAnswerForEachQuestion[],
 	targetAnswerDataList: PartyAnswerForEachQuestion[],
 	target: string
-): MatchingResultResponse => {
+): Promise<MatchingResultResponse> => {
 	/*
   Args:
     userSelectThemes: string[] 
@@ -65,7 +65,7 @@ export const calculatePartyMatchingScore = (
 				// user側の回答とparty側の回答が同じカテゴリの場合 -> マッチ度を計算する
 				matchingResult.addValueToMatchingResultByKeyword(
 					userAnswerDataCategory,
-					convertOpinionDistanceToMatchingScore(
+					await convertOpinionDistanceToMatchingScore(
 						Math.abs(userAnswerDataAnswerValue - partyAnswerDataAnswerValue),
 						userAnswerDataAnswerValueSize,
 						partyAnswerDataAnswerValueSize
@@ -91,12 +91,12 @@ export const calculatePartyMatchingScore = (
 	};
 };
 
-export const calculatePoliticianMatchingScore = (
+export const calculatePoliticianMatchingScore = async (
 	userSelectThemes: string[],
 	userAnswerDataList: UserAnswerForEachQuestion[],
 	targetAnswerDataList: PoliticianAnswerForEachQuestion[],
 	target: string
-): MatchingResultResponse => {
+): Promise<MatchingResultResponse> => {
 	/*
 	Args:
 		userSelectThemes: string[] 
@@ -140,7 +140,7 @@ export const calculatePoliticianMatchingScore = (
 				// user側の回答とpolitician側の回答が同じカテゴリの場合 -> マッチ度を計算する
 				matchingResult.addValueToMatchingResultByKeyword(
 					userAnswerDataCategory,
-					convertOpinionDistanceToMatchingScore(
+					await convertOpinionDistanceToMatchingScore(
 						Math.abs(
 							userAnswerDataAnswerValue - politicianAnswerDataAnswerValue
 						),

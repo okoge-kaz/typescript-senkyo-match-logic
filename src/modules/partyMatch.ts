@@ -1,4 +1,4 @@
-// import fetch from "node-fetch";
+import fetch from "cross-fetch";
 import {
 	PartyAnswerForEachQuestion,
 	UserAnswerForEachQuestion,
@@ -45,7 +45,7 @@ const convertToPartyAnswerForEachQuestion = (
 
 const getPartyAnswerData = async (party: string) => {
 	const response = await fetch(
-		"https://github.com/okoge-kaz/typescript-senkyo-match-logic/blob/main/data/advance/party/" +
+		"https://raw.githubusercontent.com/okoge-kaz/typescript-senkyo-match-logic/main/data/advance/party/" +
 			party +
 			".json"
 	);
@@ -54,10 +54,10 @@ const getPartyAnswerData = async (party: string) => {
 	return partyAnswerDataList;
 };
 
-export const calculatePartyMatchScore = (
+export const calculatePartyMatchScore = async (
 	userSelectThemes: string[],
 	userAnswerDataList: UserAnswerForEachQuestion[]
-): PartyMatchingResult => {
+): Promise<PartyMatchingResult>=> {
 	const partyList: string[] = [
 		"ishin",
 		"kokumin",
@@ -75,41 +75,46 @@ export const calculatePartyMatchScore = (
 		Map<string, number>
 	> = new Map();
 
-	partyList.forEach((party) => {
-		const rawPartyAnswerDataList = getPartyAnswerData(party);
-		rawPartyAnswerDataList.then((rawPartyAnswerDataList) => {
-			const partyAnswerDataList: PartyAnswerForEachQuestion[] =
-				rawPartyAnswerDataList.map((partyAnswerData) =>
-					convertToPartyAnswerForEachQuestion(
-						partyAnswerData.question_id,
-						partyAnswerData.category,
-						partyAnswerData.question,
-						partyAnswerData.party_answer,
-						partyAnswerData.party_answer_value,
-						partyAnswerData.answer_value_size
-					)
+	const calculatePartyMatching = async () => {
+		partyList.forEach((party) => {
+			const rawPartyAnswerDataList = getPartyAnswerData(party);
+			rawPartyAnswerDataList.then((rawPartyAnswerDataList) => {
+				const partyAnswerDataList: PartyAnswerForEachQuestion[] =
+					rawPartyAnswerDataList.map((partyAnswerData) =>
+						convertToPartyAnswerForEachQuestion(
+							partyAnswerData.question_id,
+							partyAnswerData.category,
+							partyAnswerData.question,
+							partyAnswerData.party_answer,
+							partyAnswerData.party_answer_value,
+							partyAnswerData.answer_value_size
+						)
+					);
+
+				const matchingResult: MatchingResultResponse =
+					await calculatePartyMatchingScore(
+						userSelectThemes,
+						userAnswerDataList,
+						partyAnswerDataList,
+						"party"
+					);
+				// console.log(matchingResult)
+
+				const totalMatchingScore: number = matchingResult.totalMatchingScore;
+				const matchingScoreByCategory: MatchingScoreByCategory =
+					matchingResult.matchingScoreByCategory;
+
+				partyMatchScoreResult.set(party, Math.round(totalMatchingScore));
+				console.log(partyMatchScoreResult);
+				partyThemeBasedMatchScoreResult.set(
+					party,
+					matchingScoreByCategory.getMatchingScoreByCategoryDictionary()
 				);
-
-			const matchingResult: MatchingResultResponse =
-				calculatePartyMatchingScore(
-					userSelectThemes,
-					userAnswerDataList,
-					partyAnswerDataList,
-					"party"
-				);
-
-			const totalMatchingScore: number = matchingResult.totalMatchingScore;
-			const matchingScoreByCategory: MatchingScoreByCategory =
-				matchingResult.matchingScoreByCategory;
-
-			partyMatchScoreResult.set(party, Math.round(totalMatchingScore));
-			partyThemeBasedMatchScoreResult.set(
-				party,
-				matchingScoreByCategory.getMatchingScoreByCategoryDictionary()
-			);
+			});
 		});
-	});
+	};
 
+	await calculatePartyMatching();
 	return {
 		// value の昇順sort
 		partyMatchScoreResult: new Map(

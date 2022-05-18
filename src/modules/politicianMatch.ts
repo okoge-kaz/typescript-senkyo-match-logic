@@ -1,4 +1,4 @@
-// import fetch from "node-fetch";
+import fetch from "cross-fetch";
 import {
 	PoliticianAnswerForEachQuestion,
 	UserAnswerForEachQuestion,
@@ -45,7 +45,7 @@ const convertToPoliticianAnswerForEachQuestion = (
 
 const getPoliticianAnswerData = async (politician: string) => {
 	const response = await fetch(
-		"https://github.com/okoge-kaz/typescript-senkyo-match-logic/blob/main/data/advance/politician/" +
+		"https://raw.githubusercontent.com/okoge-kaz/typescript-senkyo-match-logic/main/data/advance/politician/" +
 			politician +
 			".json"
 	);
@@ -69,6 +69,7 @@ export const calculatePoliticianMatchScore = (
 	politicianList.forEach((politician) => {
 		const rawPoliticianAnswerDataList = getPoliticianAnswerData(politician);
 		rawPoliticianAnswerDataList.then((rawPoliticianAnswerDataList) => {
+			
 			const politicianAnswerDataList: PoliticianAnswerForEachQuestion[] =
 				rawPoliticianAnswerDataList.map((politicianAnswerData) =>
 					convertToPoliticianAnswerForEachQuestion(
@@ -82,7 +83,7 @@ export const calculatePoliticianMatchScore = (
 				);
 
 			const matchingResult: MatchingResultResponse =
-				calculatePoliticianMatchingScore(
+				await calculatePoliticianMatchingScore(
 					userSelectThemes,
 					userAnswerDataList,
 					politicianAnswerDataList,
